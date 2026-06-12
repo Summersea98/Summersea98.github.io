@@ -3,51 +3,50 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Drill 법학 기출 DB</title>
+  <title>Drill 법학 생태계</title>
   <style>
     :root {
-      --bg: #f6f8fb;
+      --bg: #f4f7fa;
       --panel: #ffffff;
-      --ink: #172033;
-      --muted: #5f6f86;
-      --line: #d8e0ea;
+      --ink: #1a2433;
+      --muted: #627086;
+      --line: #d7e0eb;
+      --soft: #eef4f7;
       --brand: #0f766e;
-      --brand-dark: #0b5f59;
-      --danger: #b42318;
-      --warn: #a15c07;
-      --ok: #177245;
-      --case: #2163b4;
-      --important: #fff0a6;
-      --trap: #ffd1d1;
-      --requirement: #c9f2d4;
-      --precedent: #d7e7ff;
-      --compare: #eadcff;
-      --revision: #ffe0b3;
-      --mine: #d8f4ff;
+      --brand-2: #1f5ea8;
+      --warn: #9a5b00;
+      --danger: #a9342a;
+      --ok: #187548;
+      --hl-important: #fff0a6;
+      --hl-trap: #ffd4d4;
+      --hl-rule: #cdf3d9;
+      --hl-case: #d9e9ff;
+      --hl-mine: #d9f5ff;
     }
 
     * { box-sizing: border-box; }
 
     body {
       margin: 0;
-      font-family: Arial, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
-      color: var(--ink);
       background: var(--bg);
+      color: var(--ink);
+      font-family: Arial, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
       line-height: 1.55;
     }
 
-    button, input {
+    button, input, textarea {
       font: inherit;
     }
 
     button {
-      min-height: 40px;
+      min-height: 38px;
+      padding: 0 12px;
       border: 1px solid var(--line);
-      border-radius: 8px;
+      border-radius: 7px;
       background: var(--panel);
       color: var(--ink);
-      cursor: pointer;
       font-weight: 700;
+      cursor: pointer;
     }
 
     button.primary {
@@ -56,45 +55,42 @@
       color: white;
     }
 
-    button.ghost {
-      background: transparent;
-    }
-
-    button.tab {
-      border-radius: 8px 8px 0 0;
-      border-bottom: 0;
-      color: var(--muted);
+    button.blue {
+      border-color: var(--brand-2);
+      background: var(--brand-2);
+      color: white;
     }
 
     button.active {
-      color: var(--brand-dark);
       border-color: var(--brand);
-      background: #e8f5f3;
+      background: #e6f5f2;
+      color: #0b5f59;
     }
 
     header {
       background: var(--panel);
       border-bottom: 1px solid var(--line);
+      position: sticky;
+      top: 0;
+      z-index: 5;
     }
 
     .topbar {
-      max-width: 1180px;
+      max-width: 1220px;
       margin: 0 auto;
-      padding: 14px 18px;
+      padding: 12px 18px;
       display: flex;
-      align-items: center;
       justify-content: space-between;
+      align-items: center;
       gap: 16px;
     }
 
     .brand {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-      min-width: 190px;
+      min-width: 210px;
     }
 
     .brand strong {
+      display: block;
       font-size: 19px;
     }
 
@@ -103,303 +99,156 @@
       font-size: 13px;
     }
 
-    .top-actions {
+    nav {
       display: flex;
-      align-items: center;
       gap: 8px;
       flex-wrap: wrap;
       justify-content: flex-end;
     }
 
-    .status-pill {
-      display: inline-flex;
-      align-items: center;
-      min-height: 30px;
-      padding: 0 10px;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      background: #f9fbfd;
-      color: var(--muted);
-      font-size: 13px;
-      font-weight: 700;
-    }
-
     main {
-      max-width: 1180px;
+      max-width: 1220px;
       margin: 0 auto;
-      padding: 22px 18px 46px;
+      padding: 22px 18px 48px;
     }
 
-    .screen {
-      display: none;
-    }
+    .screen { display: none; }
+    .screen.active { display: block; }
 
-    .screen.active {
-      display: block;
-    }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { margin-bottom: 8px; font-size: 31px; letter-spacing: 0; }
+    h2 { margin-bottom: 12px; font-size: 22px; letter-spacing: 0; }
+    h3 { margin-bottom: 8px; font-size: 17px; letter-spacing: 0; }
 
-    .section-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: end;
-      gap: 16px;
-      margin-bottom: 16px;
-    }
+    .muted { color: var(--muted); }
 
-    h1, h2, h3, p {
-      margin-top: 0;
-    }
-
-    h1 {
-      margin-bottom: 8px;
-      font-size: 30px;
-      letter-spacing: 0;
-    }
-
-    h2 {
-      margin-bottom: 12px;
-      font-size: 22px;
-      letter-spacing: 0;
-    }
-
-    h3 {
-      margin-bottom: 8px;
-      font-size: 17px;
-      letter-spacing: 0;
-    }
-
-    .subtle {
-      color: var(--muted);
-    }
-
-    .subject-grid {
+    .layout {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 14px;
-    }
-
-    .subject-card {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      padding: 18px;
-      min-height: 214px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      gap: 16px;
-    }
-
-    .subject-title {
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      align-items: start;
-    }
-
-    .subject-title strong {
-      font-size: 21px;
-    }
-
-    .meta-list {
-      display: grid;
-      gap: 7px;
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    .card-actions {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-    }
-
-    .study-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) 390px;
+      grid-template-columns: 290px minmax(0, 1fr);
       gap: 16px;
       align-items: start;
     }
 
     .panel {
-      border: 1px solid var(--line);
-      border-radius: 8px;
       background: var(--panel);
-      padding: 18px;
-    }
-
-    .question-box {
-      display: grid;
-      gap: 16px;
-    }
-
-    .statement {
-      border-left: 5px solid var(--brand);
-      padding: 16px;
-      background: #f9fcfb;
-      font-size: 22px;
-      font-weight: 800;
-    }
-
-    .answer-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
-
-    .answer-row button {
-      min-height: 58px;
-      font-size: 22px;
-    }
-
-    .result {
-      min-height: 54px;
-      padding: 14px;
       border: 1px solid var(--line);
       border-radius: 8px;
-      background: #fbfcfe;
-      font-weight: 800;
+      padding: 16px;
     }
 
-    .result.ok {
-      border-color: #92d6ad;
-      color: var(--ok);
-      background: #f0fbf4;
+    .stack { display: grid; gap: 12px; }
+
+    .search {
+      width: 100%;
+      min-height: 44px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 0 13px;
+      background: white;
     }
 
-    .result.no {
-      border-color: #f4a6a0;
-      color: var(--danger);
-      background: #fff5f4;
-    }
-
-    .highlight-tools {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 7px;
-    }
-
-    .chip {
+    .pill {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
       min-height: 28px;
       padding: 0 9px;
-      border-radius: 999px;
       border: 1px solid var(--line);
-      background: #fbfcfe;
+      border-radius: 999px;
+      background: #fbfcfd;
       color: var(--muted);
       font-size: 13px;
       font-weight: 700;
     }
 
-    .dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(0, 0, 0, .16);
+    .pill.warn {
+      border-color: #f0c47c;
+      color: var(--warn);
+      background: #fff8ea;
     }
 
-    .hl-important { background: var(--important); }
-    .hl-trap { background: var(--trap); }
-    .hl-requirement { background: var(--requirement); }
-    .hl-precedent { background: var(--precedent); }
-    .hl-compare { background: var(--compare); }
-    .hl-revision { background: var(--revision); }
-    .hl-mine { background: var(--mine); border-bottom: 2px solid #1d82a0; }
+    .pill.ok {
+      border-color: #91d4ad;
+      color: var(--ok);
+      background: #eefbf3;
+    }
 
-    .evidence-panel {
-      display: none;
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
       gap: 14px;
     }
 
-    .evidence-panel.open {
+    .grid-3 {
       display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
     }
 
-    .evidence-section {
-      border-top: 1px solid var(--line);
-      padding-top: 13px;
-    }
-
-    .evidence-section:first-child {
-      border-top: 0;
-      padding-top: 0;
-    }
-
-    .source-box {
+    .item {
       border: 1px solid var(--line);
       border-radius: 8px;
-      padding: 12px;
       background: #fbfcfe;
-      display: grid;
-      gap: 8px;
-    }
-
-    .source-box.official {
-      background: #fffdf7;
-    }
-
-    .source-box.self {
-      background: #f7fbff;
-    }
-
-    .source-label {
-      color: var(--muted);
-      font-size: 13px;
-      font-weight: 800;
-    }
-
-    .viewer-grid {
-      display: grid;
-      grid-template-columns: 280px minmax(0, 1fr);
-      gap: 16px;
-    }
-
-    .side-list {
-      display: grid;
-      gap: 8px;
-    }
-
-    .search {
-      width: 100%;
-      min-height: 40px;
-      padding: 0 12px;
-      border: 1px solid var(--line);
-      border-radius: 8px;
-    }
-
-    .law-tabs {
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-      border-bottom: 1px solid var(--line);
-      margin-bottom: 14px;
-    }
-
-    .viewer-content {
-      display: none;
-    }
-
-    .viewer-content.active {
-      display: grid;
-      gap: 14px;
-    }
-
-    .article-text {
       padding: 14px;
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      background: #fff;
-      white-space: normal;
+      display: grid;
+      gap: 8px;
     }
 
-    .warning {
-      border-left: 5px solid var(--warn);
-      padding: 12px 14px;
-      background: #fff7ed;
-      color: #7a4200;
+    .item.clickable {
+      cursor: pointer;
+    }
+
+    .item.clickable:hover {
+      border-color: var(--brand);
+      background: #f5fbfa;
+    }
+
+    .case-title {
+      color: #143a68;
       font-weight: 800;
+    }
+
+    .subject-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .subject-row:last-child { border-bottom: 0; }
+
+    .tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-bottom: 14px;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 8px;
+    }
+
+    .content-block {
+      border-left: 4px solid var(--brand-2);
+      padding: 12px 14px;
+      background: #f8fbff;
+      margin-bottom: 12px;
+    }
+
+    .content-block.rule {
+      border-left-color: var(--brand);
+      background: #f6fcfa;
+    }
+
+    .content-block.warn {
+      border-left-color: var(--warn);
+      background: #fff8ea;
+    }
+
+    .quote {
+      padding: 13px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: white;
     }
 
     .split {
@@ -408,31 +257,119 @@
       gap: 12px;
     }
 
-    .report {
+    .ox-panel {
+      display: none;
+      margin-top: 14px;
+    }
+
+    .ox-panel.open { display: grid; }
+
+    .answer-row {
       display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .answer-row button {
+      min-height: 52px;
+      font-size: 20px;
+    }
+
+    .result {
+      min-height: 44px;
+      padding: 11px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: white;
+      font-weight: 800;
+    }
+
+    .result.ok {
+      color: var(--ok);
+      background: #eefbf3;
+      border-color: #91d4ad;
+    }
+
+    mark {
+      padding: 0 2px;
+      border-radius: 3px;
+    }
+
+    .hl-important { background: var(--hl-important); }
+    .hl-trap { background: var(--hl-trap); }
+    .hl-rule { background: var(--hl-rule); }
+    .hl-case { background: var(--hl-case); }
+    .hl-mine { background: var(--hl-mine); border-bottom: 2px solid #1d82a0; }
+
+    .pipeline {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .step {
+      min-height: 112px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: white;
+    }
+
+    .arrow {
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .law-view {
+      display: grid;
+      grid-template-columns: 260px minmax(0, 1fr);
+      gap: 14px;
+    }
+
+    .law-tabbar {
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 8px;
+      margin-bottom: 14px;
+    }
+
+    .law-content { display: none; }
+    .law-content.active { display: grid; gap: 12px; }
+
+    .graph {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 10px;
     }
 
-    .report textarea {
-      min-height: 90px;
-      resize: vertical;
+    .graph .node {
+      min-height: 118px;
       border: 1px solid var(--line);
       border-radius: 8px;
-      padding: 10px;
-      font: inherit;
+      background: white;
+      padding: 13px;
     }
 
-    @media (max-width: 940px) {
-      .subject-grid, .study-grid, .viewer-grid, .split {
+    .doc-list a {
+      display: block;
+      color: #164e90;
+      text-decoration: none;
+      font-weight: 800;
+      margin: 6px 0;
+    }
+
+    @media (max-width: 980px) {
+      .topbar, .layout, .grid-2, .grid-3, .split, .pipeline, .law-view, .graph {
         grid-template-columns: 1fr;
       }
 
-      .section-head, .topbar {
-        align-items: stretch;
-        flex-direction: column;
+      .topbar {
+        display: grid;
       }
 
-      .top-actions {
+      nav {
         justify-content: flex-start;
       }
     }
@@ -442,361 +379,358 @@
   <header>
     <div class="topbar">
       <div class="brand">
-        <strong>Drill 법학 기출 DB</strong>
-        <span>기출 OX · 관련 규정 · 관련 판례 · 원문 링크</span>
+        <strong>Drill 법학 생태계</strong>
+        <span>기출 문제 · 판례 · 규정 · AI 근거 DB</span>
       </div>
-      <div class="top-actions">
-        <span class="status-pill">최신 조문을 반영했습니다.</span>
-        <button class="ghost" data-screen="home">과목 선택</button>
-        <button class="ghost" data-screen="law">법령 뷰어</button>
-        <button class="ghost" data-screen="case">판례 뷰어</button>
-      </div>
+      <nav>
+        <button data-screen="home" class="active">홈</button>
+        <button data-screen="precedents">최신판례</button>
+        <button data-screen="caseDetail">판례 상세</button>
+        <button data-screen="lawViewer">법령 뷰어</button>
+        <button data-screen="graph">근거 그래프</button>
+        <button data-screen="docs">명세서</button>
+      </nav>
     </div>
   </header>
 
   <main>
-    <section class="screen active" id="home">
-      <div class="section-head">
-        <div>
-          <h1>과목 선택</h1>
-          <p class="subtle">과목별 기출 OX 수, 최신 반영 상태, 오류 수정 상태를 먼저 확인합니다.</p>
-        </div>
-        <span class="status-pill">출제 당시 기준과 현행법 기준이 다를 수 있습니다.</span>
-      </div>
-      <div class="subject-grid" id="subjectGrid"></div>
-    </section>
-
-    <section class="screen" id="study">
-      <div class="section-head">
-        <div>
-          <h1 id="studyTitle">형법 기출 OX 풀기</h1>
-          <p class="subtle">정답 확인 뒤 바로 근거를 봅니다.</p>
-        </div>
-        <button class="ghost" data-screen="home">과목 선택</button>
-      </div>
-
-      <div class="study-grid">
-        <article class="panel question-box">
+    <section id="home" class="screen active">
+      <div class="layout">
+        <aside class="panel stack">
+          <h2>검색</h2>
+          <input class="search" value="행정권한의 위임 2024두60701" aria-label="통합 검색">
+          <button class="primary" data-screen="caseDetail">판례에서 관련 기출 보기</button>
+          <button data-screen="lawViewer">조문에서 관련 문제 보기</button>
           <div>
-            <span class="chip">2024 경찰간부 · 형법 · 불작위범</span>
-            <span class="chip">출제 당시 기준</span>
-            <span class="chip">현행법 기준 검토 완료</span>
+            <span class="pill ok">공식 원천 우선</span>
+            <span class="pill warn">공기출은 권리 검토 필요</span>
           </div>
+        </aside>
 
-          <div class="statement" id="statementText"></div>
-
-          <div class="highlight-tools" aria-label="하이라이트 범례">
-            <span class="chip"><span class="dot hl-important"></span>중요</span>
-            <span class="chip"><span class="dot hl-trap"></span>함정</span>
-            <span class="chip"><span class="dot hl-requirement"></span>요건</span>
-            <span class="chip"><span class="dot hl-precedent"></span>판례</span>
-            <span class="chip"><span class="dot hl-compare"></span>비교</span>
-            <span class="chip"><span class="dot hl-revision"></span>개정</span>
-            <span class="chip"><span class="dot hl-mine"></span>내 색칠</span>
-          </div>
-
-          <div class="answer-row">
-            <button data-answer="O">O</button>
-            <button data-answer="X">X</button>
-          </div>
-
-          <div class="result" id="answerResult">정답을 선택하세요.</div>
-
-          <div class="source-box self">
-            <div class="source-label">짧은 해설</div>
-            <div id="shortExplanation"></div>
-          </div>
-
-          <div class="top-actions">
-            <button class="primary" id="toggleEvidence">근거 보기</button>
-            <button id="reportButton">오류제보</button>
-          </div>
-        </article>
-
-        <aside class="panel evidence-panel" id="evidencePanel" aria-live="polite">
-          <div class="evidence-section">
-            <h2>지문</h2>
-            <p id="evidenceStatement"></p>
-          </div>
-          <div class="evidence-section">
-            <h2>판단</h2>
-            <p><strong id="judgement"></strong></p>
-          </div>
-          <div class="evidence-section">
-            <h2>짧은 해설</h2>
-            <p id="evidenceExplanation"></p>
-          </div>
-          <div class="evidence-section">
-            <h2>관련 규정</h2>
-            <div class="source-box official">
-              <div class="source-label">이 지문에서 필요한 부분</div>
-              <strong id="articleTitle"></strong>
-              <p id="articleQuote"></p>
-              <div class="split">
-                <span class="chip">출제 당시 기준: 동일</span>
-                <span class="chip">현행법 기준: 검토 완료</span>
+        <div class="stack">
+          <div class="panel">
+            <h1>기출 문제에서 판례·규정으로, 다시 관련 문제로</h1>
+            <p class="muted">Drill의 목표는 OX 앱, 판례 DB 사이트, 법령 뷰어 앱, AI 검수 보조를 하나의 근거 DB로 묶는 것입니다.</p>
+            <div class="grid-3">
+              <div class="item">
+                <h3>기출 OX 앱</h3>
+                <p>문제를 풀고 바로 근거를 확인합니다.</p>
+                <span class="pill">정답 · 해설 · 오류제보</span>
               </div>
-              <button class="primary" data-open-law="criminal">원문 보기</button>
+              <div class="item">
+                <h3>판례·규정 DB</h3>
+                <p>판례와 조문에서 관련 기출문제로 이동합니다.</p>
+                <span class="pill">판시사항 · 관련 기출</span>
+              </div>
+              <div class="item">
+                <h3>법령 뷰어</h3>
+                <p>여러 법령을 탭으로 열고 형광펜과 관련 문제를 봅니다.</p>
+                <span class="pill">약칭 검색 · 다중 탭</span>
+              </div>
             </div>
           </div>
-          <div class="evidence-section">
-            <h2>관련 판례</h2>
-            <div class="source-box official">
-              <div class="source-label">공식 원문과 자체 요약 구분</div>
-              <strong id="caseTitle"></strong>
-              <p id="caseQuote"></p>
-              <button class="primary" data-open-case="omission">원문 보기</button>
+
+          <div class="grid-2">
+            <div class="panel">
+              <h2>최신판례</h2>
+              <div id="latestPreview" class="stack"></div>
+              <button class="blue" data-screen="precedents">최신판례 더보기</button>
+            </div>
+            <div class="panel">
+              <h2>과목별 기출 OX</h2>
+              <div id="subjects"></div>
             </div>
           </div>
-          <div class="evidence-section">
-            <h2>더 보기</h2>
-            <button data-screen="law">관련 조문</button>
-            <button data-screen="case">관련 판례</button>
+
+          <div class="panel">
+            <h2>수집 파이프라인</h2>
+            <div class="pipeline">
+              <div class="step"><strong>공식 문제지</strong><p class="muted">시험기관 PDF와 최종정답을 우선 수집</p></div>
+              <div class="step"><strong>문제 분해</strong><p class="muted">문항, 보기, OX 지문으로 구조화</p></div>
+              <div class="step"><strong>근거 후보</strong><p class="muted">조문·판례·쟁점 후보 연결</p></div>
+              <div class="step"><strong>검수</strong><p class="muted">정답, 해설, 공식 색칠 확인</p></div>
+              <div class="step"><strong>배포</strong><p class="muted">앱·웹·AI 근거 패킷에 반영</p></div>
+            </div>
           </div>
-        </aside>
+        </div>
       </div>
     </section>
 
-    <section class="screen" id="law">
-      <div class="section-head">
-        <div>
+    <section id="precedents" class="screen">
+      <div class="panel stack">
+        <h1>최신판례</h1>
+        <p class="muted">AlphaLaw식 최신판례 목록 구조를 참고하되, Drill은 각 판례에 관련 기출 OX와 조문을 바로 붙입니다.</p>
+        <div id="precedentList" class="stack"></div>
+      </div>
+    </section>
+
+    <section id="caseDetail" class="screen">
+      <div class="layout">
+        <aside class="panel stack">
+          <h2>판례 이동</h2>
+          <button class="active">2024두60701</button>
+          <button>86누569</button>
+          <button>94누6475</button>
+          <button data-screen="precedents">최신판례 목록</button>
+          <span class="pill">관련 기출 1개</span>
+          <span class="pill">참조조문 8개</span>
+        </aside>
+
+        <article class="panel stack">
+          <div>
+            <span class="pill">대법원</span>
+            <span class="pill">2026. 1. 29.</span>
+            <span class="pill">2024두60701</span>
+            <span class="pill ok">공식 원문 연결</span>
+          </div>
+          <h1>[대법원 2026. 1. 29. 선고 2024두60701 판결]</h1>
+          <p class="muted">행정권한의 위임과 내부 위임의 차이. 판례에서 관련 기출문제를 바로 열 수 있게 구성합니다.</p>
+
+          <div class="tabs">
+            <button class="active" data-case-tab="holding">판시사항</button>
+            <button data-case-tab="summary">판결요지</button>
+            <button data-case-tab="articles">참조조문</button>
+            <button data-case-tab="references">참조판례</button>
+            <button data-case-tab="full">전문</button>
+          </div>
+
+          <div id="caseTabContent" class="stack"></div>
+
+          <div class="content-block">
+            <h2>관련 기출문제</h2>
+            <p>판례 상세에서 바로 기출 OX를 열고, 다시 관련판례와 조문으로 이동합니다.</p>
+            <button class="primary" id="toggleOx">관련 기출문제 열기</button>
+          </div>
+
+          <div id="relatedOx" class="ox-panel stack panel">
+            <span class="pill">소방간부 2026 행정법</span>
+            <h2>행정권한의 위임의 경우에는 수임관청이 자기의 이름으로 그 권한행사를 할 수 있다.</h2>
+            <div class="answer-row">
+              <button data-answer="O">O</button>
+              <button data-answer="X">X</button>
+            </div>
+            <div id="answerResult" class="result">정답을 선택하세요.</div>
+            <div class="quote">
+              <strong>짧은 해설</strong>
+              <p>행정권한의 위임은 가능하지만, 내부 위임은 수임관청이 자기 이름으로 행사할 수 없습니다. 이 지문은 일반 위임만 말하므로 O입니다.</p>
+            </div>
+            <div class="split">
+              <div class="quote">
+                <strong>관련 규정</strong>
+                <p><mark class="hl-rule">정부조직법 제6조</mark>, 행정권한의 위임 및 위탁에 관한 규정 제3조</p>
+                <button data-screen="lawViewer">원문 보기</button>
+              </div>
+              <div class="quote">
+                <strong>관련 판례</strong>
+                <p><mark class="hl-case">2024두60701</mark>, 86누569, 94누6475</p>
+                <button data-screen="caseDetail">판례 보기</button>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="lawViewer" class="screen">
+      <div class="law-view">
+        <aside class="panel stack">
+          <h2>법령 검색</h2>
+          <input class="search" value="행정권한 위임 규정" aria-label="법령 검색">
+          <button data-law="gov">정부조직법 제6조</button>
+          <button data-law="delegate">행정권한 위임위탁규정 제3조</button>
+          <button data-law="criminal">형법 제18조</button>
+          <button data-law="procedure">형소법 제312조</button>
+          <span class="pill">최근 본 법령 4개</span>
+          <span class="pill warn">색칠 위치 확인 필요 1건</span>
+        </aside>
+
+        <article class="panel">
           <h1>법령 뷰어</h1>
-          <p class="subtle">약칭 검색, 조문 목차, 관련 판례, 관련 기출 OX를 한 화면에서 봅니다.</p>
-        </div>
-        <button class="ghost" data-screen="study">기출 OX 풀기</button>
-      </div>
-      <div class="viewer-grid">
-        <aside class="panel side-list">
-          <input class="search" value="형소법 제312조" aria-label="법령명 검색">
-          <button data-law-tab="criminal">형법</button>
-          <button data-law-tab="procedure">형소법 제312조</button>
-          <button data-law-tab="related">관련 조문</button>
-          <button data-law-tab="recent">최근 본 법령</button>
-        </aside>
-        <article class="panel">
-          <div class="law-tabs">
-            <button class="tab active" data-law-tab="criminal">형법</button>
-            <button class="tab" data-law-tab="procedure">형소법 제312조</button>
-            <button class="tab" data-law-tab="related">관련 조문</button>
+          <p class="muted">법퍼링식 다중 탭 구조에 Drill의 관련 판례·관련 기출 OX를 붙입니다.</p>
+          <div class="law-tabbar">
+            <button class="active" data-law="gov">정부조직법</button>
+            <button data-law="delegate">행정위임위탁규정</button>
+            <button data-law="criminal">형법</button>
+            <button data-law="procedure">형소법</button>
           </div>
-
-          <div class="viewer-content active" data-law-content="criminal">
-            <h2>형법 제18조 부작위범</h2>
-            <div class="warning">개정 주의: 이 조문은 최근 변경 여부를 확인 중입니다.</div>
-            <div class="article-text">
-              <span class="hl-requirement">위험의 발생을 방지할 의무가 있거나</span>
-              자기의 행위로 인하여 위험발생의 원인을 야기한 자가 그 위험발생을 방지하지 아니한 때에는 그 발생된 결과에 의하여 처벌한다.
-            </div>
-            <div class="source-box self">
-              <div class="source-label">관련 기출 OX</div>
-              <p>보증인지위가 없는 사람의 단순 부작위는 원칙적으로 부작위범 성립 근거가 부족하다.</p>
-              <button data-screen="study">문제로 돌아가기</button>
-            </div>
-          </div>
-
-          <div class="viewer-content" data-law-content="procedure">
-            <h2>형사소송법 제312조</h2>
-            <div class="article-text">
-              조서의 증거능력은 작성 주체, 실질적 진정성립, 반대신문 기회 등 요건을 나누어 봅니다.
-              <span class="hl-mine">내 색칠: 검사 작성 피의자신문조서 요건</span>
-            </div>
-            <div class="source-box official">
-              <div class="source-label">관련 판례</div>
-              <p>조서의 실질적 진정성립과 증거능력 판단 기준.</p>
-            </div>
-          </div>
-
-          <div class="viewer-content" data-law-content="related">
-            <h2>관련 조문</h2>
-            <div class="article-text">
-              <strong>관련 조문 펼쳐보기</strong>
-              <p>형법 제13조, 제14조, 제18조를 함께 비교합니다.</p>
-            </div>
-          </div>
+          <div id="lawContent"></div>
         </article>
       </div>
     </section>
 
-    <section class="screen" id="case">
-      <div class="section-head">
-        <div>
-          <h1>판례 뷰어</h1>
-          <p class="subtle">사건번호, 법원, 선고일자, 핵심 판시 문장을 먼저 봅니다.</p>
+    <section id="graph" class="screen">
+      <div class="panel stack">
+        <h1>근거 그래프</h1>
+        <p class="muted">문제와 판례, 규정, 원문 스냅샷, AI 검수 패킷을 하나로 연결합니다.</p>
+        <div class="graph">
+          <div class="node"><h3>exam / question</h3><p>소방간부 2026 행정법 1번</p></div>
+          <div class="node"><h3>ox_item</h3><p>행정권한 위임 지문 O</p></div>
+          <div class="node"><h3>issue</h3><p>행정권한의 위임과 내부 위임</p></div>
+          <div class="node"><h3>evidence_link</h3><p>판례·조문·공식 정답 연결</p></div>
+          <div class="node"><h3>article</h3><p>정부조직법 제6조</p></div>
+          <div class="node"><h3>precedent</h3><p>2024두60701</p></div>
+          <div class="node"><h3>highlight_layer</h3><p>공식 색칠 / 내 색칠</p></div>
+          <div class="node"><h3>AI packet</h3><p>검수된 근거만 우선 참조</p></div>
         </div>
-        <button class="ghost" data-screen="study">기출 OX 풀기</button>
-      </div>
-      <div class="viewer-grid">
-        <aside class="panel side-list">
-          <input class="search" value="보증인지위" aria-label="판례 검색">
-          <button data-case-tab="omission">부작위범</button>
-          <button data-case-tab="confuse">헷갈리는 판례</button>
-          <button data-case-tab="recent">최신판례</button>
-        </aside>
-        <article class="panel">
-          <div class="viewer-content active" data-case-content="omission">
-            <h2>대법원 20XX.XX.XX. 선고 XXXX도XXXX</h2>
-            <span class="chip">대법원</span>
-            <span class="chip">형법</span>
-            <span class="chip">판례</span>
-            <div class="source-box self">
-              <div class="source-label">자체 요약</div>
-              <p>부작위범은 결과방지의무와 작위가능성이 핵심입니다. 단순히 도와주지 않았다는 사정만으로 항상 성립하지 않습니다.</p>
-            </div>
-            <div class="source-box official">
-              <div class="source-label">판례 원문 중 핵심 문장</div>
-              <p><span class="hl-precedent">법령, 계약, 선행행위 등에 따른 작위의무가 인정되어야 한다.</span></p>
-            </div>
-            <div class="source-box self">
-              <div class="source-label">관련 기출 OX</div>
-              <p>보증인지위가 없는 사람에게 결과방지의무를 인정할 수 있는지 묻는 지문.</p>
-              <button data-screen="study">OX로 바로 풀기</button>
-            </div>
-          </div>
-          <div class="viewer-content" data-case-content="confuse">
-            <h2>헷갈리는 판례</h2>
-            <p>보호의무가 인정되는 사안과 단순 방관 사안을 비교합니다.</p>
-          </div>
-          <div class="viewer-content" data-case-content="recent">
-            <h2>최신판례</h2>
-            <p>최신 변경 확인이 지연되고 있습니다.</p>
-          </div>
-        </article>
+        <div class="content-block warn">
+          <h2>권리·출처 원칙</h2>
+          <p>공기출 같은 공개 사이트는 후보 원천과 UX 참고로 쓰고, 문제 원문은 공식 PDF에서 재수집합니다. 외부 해설은 그대로 복제하지 않습니다.</p>
+        </div>
       </div>
     </section>
 
-    <dialog id="reportDialog">
-      <form method="dialog" class="panel report">
-        <h2>오류제보</h2>
-        <p class="subtle">정답 오류, 해설 오류, 판례 변경, 법령 개정, 색칠/하이라이트 오류, 출처 오류를 남깁니다.</p>
-        <textarea aria-label="오류 내용">이 지문에서 확인이 필요한 내용을 적어주세요.</textarea>
-        <div class="top-actions">
-          <button>닫기</button>
-          <button class="primary" value="submit">제보 저장</button>
-        </div>
-      </form>
-    </dialog>
+    <section id="docs" class="screen">
+      <div class="panel stack doc-list">
+        <h1>명세서</h1>
+        <p class="muted">앞으로 개선할 때 이 문서들을 기준으로 삼습니다.</p>
+        <a href="https://github.com/Summersea98/Summersea98.github.io">GitHub 저장소</a>
+        <a>DRILL_ECOSYSTEM_MASTER_SPEC.md</a>
+        <a>DRILL_QUESTION_SOURCE_PIPELINE_SPEC.md</a>
+        <a>DRILL_EVIDENCE_GRAPH_SPEC.md</a>
+        <a>DRILL_LAW_VIEWER_APP_SPEC.md</a>
+        <a>DRILL_AI_ASSISTED_REVIEW_SPEC.md</a>
+      </div>
+    </section>
   </main>
 
   <script>
-    const subjects = [
-      ["형법", "12,480", "2026", "2026-06-12", "수정 3건 반영"],
-      ["형사소송법", "9,860", "2026", "2026-06-12", "검토 중 2건"],
-      ["헌법", "8,240", "2025", "2026-06-10", "수정 완료"],
-      ["행정법", "10,120", "2026", "2026-06-11", "개정 주의 4건"],
-      ["민법", "14,300", "2025", "2026-06-09", "검토 완료"],
-      ["민사소송법", "7,740", "2025", "2026-06-08", "수정 완료"]
+    const latestCases = [
+      {
+        id: "2024du60701",
+        title: "[대판 2026. 1. 29., 2024두60701]",
+        summary: "행정권한의 위임과 내부 위임의 차이. 내부 위임만으로는 수임관청이 자기 이름으로 권한을 행사할 수 없습니다.",
+        tags: ["행정법", "권한 위임", "관련 기출 1"]
+      },
+      {
+        id: "2025do15970",
+        title: "[대판 2026. 1. 29., 2025도15970]",
+        summary: "형의 실효와 누범가중의 관계. 형이 실효되어도 누범사유 판단에는 영향이 없을 수 있습니다.",
+        tags: ["형법", "누범", "관련 조문"]
+      },
+      {
+        id: "2021hunba168",
+        title: "헌재 2026. 2. 26. 2021헌바168",
+        summary: "미신고 옥외집회 처벌조항과 과잉금지원칙. 출제 가능성이 높은 최신 헌재 결정입니다.",
+        tags: ["헌법", "집회의 자유", "최신판례"]
+      }
     ];
 
-    const oxItem = {
-      ox_item_id: "ox_criminal_2024_001_a",
-      answer_ox: "X",
-      statement: "<span class='hl-trap'>보증인지위가 없는 사람</span>도 위험을 방지하지 않았다는 이유만으로 <span class='hl-important'>항상 부작위범</span>이 성립한다.",
-      short_explanation: "항상 성립하지 않습니다. 부작위범은 결과방지의무, 작위가능성, 구성요건적 동가치성이 문제됩니다.",
-      article: {
-        target_id: "article_criminal_18",
-        title: "형법 제18조",
-        quote: "위험의 발생을 방지할 의무가 있거나 자기의 행위로 위험발생의 원인을 야기한 자가 문제됩니다."
+    const subjects = [
+      ["행정법", "7,137", "권한 위임 · 처분 · 재량"],
+      ["형법", "14,461", "구성요건 · 위법성 · 책임"],
+      ["형사소송법", "10,644", "증거 · 수사 · 공판"],
+      ["헌법", "15,217", "기본권 · 통치구조"],
+      ["민법", "6,569", "총칙 · 물권 · 채권"],
+      ["민사소송법", "1,919", "소송요건 · 증거 · 상소"]
+    ];
+
+    const caseTabs = {
+      holding: "<div class='content-block'><h2>판시사항</h2><p>[1] 행정권한의 위임과 행정권한 내부 위임의 차이 및 내부 위임된 경우 수임관청이 자기 이름으로 권한을 행사할 수 있는지 여부.</p></div>",
+      summary: "<div class='content-block'><h2>판결요지</h2><p><mark class='hl-case'>행정권한의 위임은 법률에 따라 권한의 법적 귀속을 변경합니다.</mark> 내부 위임은 사무처리 편의를 위한 것이므로 수임관청은 위임관청의 이름으로만 행사할 수 있습니다.</p></div>",
+      articles: "<div class='content-block rule'><h2>참조조문</h2><p>정부조직법 제6조 제1항, 행정권한의 위임 및 위탁에 관한 규정 제3조 제1항, 보조금 관리에 관한 법률 관련 조항.</p><button data-screen='lawViewer'>조문 원문 보기</button></div>",
+      references: "<div class='content-block'><h2>참조판례</h2><p>대법원 1986. 12. 9. 선고 86누569 판결, 대법원 1995. 11. 28. 선고 94누6475 판결.</p></div>",
+      full: "<div class='content-block'><h2>전문</h2><p>전문은 공식 원문 링크와 Drill 자체 요약을 분리해서 표시합니다. 이 프로토타입에서는 핵심 법리 부분만 예시로 표시합니다.</p><p><mark class='hl-mine'>내 색칠: 내부 위임과 권한 위임 비교</mark></p></div>"
+    };
+
+    const laws = {
+      gov: {
+        title: "정부조직법 제6조",
+        body: "행정기관은 법령으로 정하는 바에 따라 그 소관 사무의 일부를 보조기관 또는 하급행정기관에 위임하거나 위탁할 수 있습니다.",
+        note: "출제 당시 기준과 현행법 기준을 분리해서 저장합니다."
       },
-      precedent: {
-        target_id: "precedent_omission_001",
-        title: "대법원 20XX.XX.XX. 선고 XXXX도XXXX",
-        quote: "법령, 계약, 선행행위 등에 따른 작위의무가 인정되어야 한다는 취지입니다."
+      delegate: {
+        title: "행정권한의 위임 및 위탁에 관한 규정 제3조",
+        body: "행정기관의 장은 허가·인가·등록 등 민원에 관한 사무, 정책의 구체화에 따른 집행사무 등 일부 권한을 위임할 수 있습니다.",
+        note: "2024두60701 판례와 연결된 조문입니다."
       },
-      evidence_link: {
-        evidence_type: "article / precedent",
-        display_order: 1,
-        basis_note: "결과방지의무가 있는지 판단",
-        review_status: "검수 완료"
+      criminal: {
+        title: "형법 제18조 부작위범",
+        body: "위험의 발생을 방지할 의무가 있거나 자기 행위로 위험발생의 원인을 야기한 자가 그 위험발생을 방지하지 아니한 때에는 그 발생된 결과에 의하여 처벌합니다.",
+        note: "부작위범 기출 OX와 연결됩니다."
+      },
+      procedure: {
+        title: "형사소송법 제312조",
+        body: "조서의 증거능력은 작성 주체와 실질적 진정성립 등 요건을 나누어 판단합니다.",
+        note: "증거능력 관련 판례와 연결됩니다."
       }
     };
 
-    const subjectGrid = document.querySelector("#subjectGrid");
-    subjectGrid.innerHTML = subjects.map(([name, count, year, updated, status]) => `
-      <article class="subject-card">
-        <div>
-          <div class="subject-title">
-            <strong>${name}</strong>
-            <span class="chip">${status}</span>
-          </div>
-          <div class="meta-list">
-            <span>총 OX 수: ${count}</span>
-            <span>최신 기출 반영 연도: ${year}</span>
-            <span>최신 법령/판례 반영일: ${updated}</span>
-            <span>오류 수정 상태: ${status}</span>
-          </div>
-        </div>
-        <div class="card-actions">
-          <button class="primary" data-start="${name}">기출 OX 풀기</button>
-          <button data-screen="case">판례로 보기</button>
-          <button data-screen="law">최신 변경 확인</button>
-          <button data-screen="law">법령 보기</button>
-        </div>
-      </article>
-    `).join("");
-
     function showScreen(id) {
-      document.querySelectorAll(".screen").forEach(screen => screen.classList.toggle("active", screen.id === id));
+      document.querySelectorAll(".screen").forEach(el => el.classList.toggle("active", el.id === id));
+      document.querySelectorAll("nav button").forEach(btn => btn.classList.toggle("active", btn.dataset.screen === id));
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
-    function setQuestion(subject) {
-      document.querySelector("#studyTitle").textContent = `${subject} 기출 OX 풀기`;
-      document.querySelector("#statementText").innerHTML = oxItem.statement;
-      document.querySelector("#shortExplanation").textContent = oxItem.short_explanation;
-      document.querySelector("#evidenceStatement").innerHTML = oxItem.statement;
-      document.querySelector("#judgement").textContent = "판단: X";
-      document.querySelector("#evidenceExplanation").textContent = oxItem.short_explanation;
-      document.querySelector("#articleTitle").textContent = oxItem.article.title;
-      document.querySelector("#articleQuote").textContent = oxItem.article.quote;
-      document.querySelector("#caseTitle").textContent = oxItem.precedent.title;
-      document.querySelector("#caseQuote").textContent = oxItem.precedent.quote;
-      document.querySelector("#answerResult").className = "result";
-      document.querySelector("#answerResult").textContent = "정답을 선택하세요.";
-      document.querySelector("#evidencePanel").classList.remove("open");
-      showScreen("study");
+    function renderLatest() {
+      const small = latestCases.slice(0, 2).map(renderCaseCard).join("");
+      document.querySelector("#latestPreview").innerHTML = small;
+      document.querySelector("#precedentList").innerHTML = latestCases.map(renderCaseCard).join("");
+    }
+
+    function renderCaseCard(item) {
+      return `<article class="item clickable" data-screen="caseDetail">
+        <div class="case-title">${item.title}</div>
+        <p>${item.summary}</p>
+        <div>${item.tags.map(tag => `<span class="pill">${tag}</span>`).join(" ")}</div>
+      </article>`;
+    }
+
+    function renderSubjects() {
+      document.querySelector("#subjects").innerHTML = subjects.map(([name, count, desc]) => `
+        <div class="subject-row">
+          <div><strong>${name}</strong><br><span class="muted">${desc}</span></div>
+          <span class="pill">${count} OX</span>
+        </div>
+      `).join("");
+    }
+
+    function renderLaw(key) {
+      const law = laws[key] || laws.gov;
+      document.querySelector("#lawContent").innerHTML = `
+        <div class="content-block rule">
+          <h2>${law.title}</h2>
+          <p><mark class="hl-rule">${law.body}</mark></p>
+          <span class="pill ok">최신 조문을 반영했습니다.</span>
+          <span class="pill warn">관련 문제 검토 중</span>
+        </div>
+        <div class="grid-2">
+          <div class="quote"><strong>관련 판례</strong><p>2024두60701, 86누569, 94누6475</p><button data-screen="caseDetail">판례 보기</button></div>
+          <div class="quote"><strong>관련 기출 OX</strong><p>소방간부 2026 행정법: 행정권한 위임 지문</p><button data-screen="caseDetail">관련 문제 보기</button></div>
+        </div>
+        <div class="quote"><strong>운영 메모</strong><p>${law.note}</p></div>
+      `;
+      document.querySelectorAll("[data-law]").forEach(btn => btn.classList.toggle("active", btn.dataset.law === key));
     }
 
     document.addEventListener("click", event => {
       const screen = event.target.closest("[data-screen]");
       if (screen) showScreen(screen.dataset.screen);
 
-      const start = event.target.closest("[data-start]");
-      if (start) setQuestion(start.dataset.start);
+      const caseTab = event.target.closest("[data-case-tab]");
+      if (caseTab) {
+        document.querySelectorAll("[data-case-tab]").forEach(btn => btn.classList.toggle("active", btn === caseTab));
+        document.querySelector("#caseTabContent").innerHTML = caseTabs[caseTab.dataset.caseTab];
+      }
+
+      const law = event.target.closest("[data-law]");
+      if (law) renderLaw(law.dataset.law);
+
+      if (event.target.closest("#toggleOx")) {
+        document.querySelector("#relatedOx").classList.toggle("open");
+      }
 
       const answer = event.target.closest("[data-answer]");
       if (answer) {
-        const correct = answer.dataset.answer === oxItem.answer_ox;
         const result = document.querySelector("#answerResult");
-        result.className = `result ${correct ? "ok" : "no"}`;
-        result.textContent = correct ? "정답입니다. 근거를 확인하세요." : "오답입니다. 이 지문은 X입니다.";
-      }
-
-      if (event.target.closest("#toggleEvidence")) {
-        document.querySelector("#evidencePanel").classList.toggle("open");
-      }
-
-      if (event.target.closest("#reportButton")) {
-        document.querySelector("#reportDialog").showModal();
-      }
-
-      const law = event.target.closest("[data-law-tab], [data-open-law]");
-      if (law) {
-        const target = law.dataset.lawTab || law.dataset.openLaw;
-        showScreen("law");
-        document.querySelectorAll("[data-law-content]").forEach(item => item.classList.toggle("active", item.dataset.lawContent === target));
-        document.querySelectorAll(".law-tabs .tab").forEach(item => item.classList.toggle("active", item.dataset.lawTab === target));
-      }
-
-      const caseTab = event.target.closest("[data-case-tab], [data-open-case]");
-      if (caseTab) {
-        const target = caseTab.dataset.caseTab || caseTab.dataset.openCase;
-        showScreen("case");
-        document.querySelectorAll("[data-case-content]").forEach(item => item.classList.toggle("active", item.dataset.caseContent === target));
+        result.className = "result ok";
+        result.textContent = answer.dataset.answer === "O" ? "정답입니다. 일반 위임 지문입니다." : "오답입니다. 내부 위임과 구별해야 합니다.";
       }
     });
 
-    setQuestion("형법");
-    showScreen("home");
+    renderLatest();
+    renderSubjects();
+    document.querySelector("#caseTabContent").innerHTML = caseTabs.holding;
+    renderLaw("gov");
   </script>
 </body>
 </html>
