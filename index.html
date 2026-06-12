@@ -3,62 +3,800 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Summersea98</title>
+  <title>Drill 법학 기출 DB</title>
   <style>
-    :root { --ink:#1f2937; --muted:#64748b; --line:#d7dee8; --accent:#0f766e; --paper:#fff; --soft:#f4f7fb; }
+    :root {
+      --bg: #f6f8fb;
+      --panel: #ffffff;
+      --ink: #172033;
+      --muted: #5f6f86;
+      --line: #d8e0ea;
+      --brand: #0f766e;
+      --brand-dark: #0b5f59;
+      --danger: #b42318;
+      --warn: #a15c07;
+      --ok: #177245;
+      --case: #2163b4;
+      --important: #fff0a6;
+      --trap: #ffd1d1;
+      --requirement: #c9f2d4;
+      --precedent: #d7e7ff;
+      --compare: #eadcff;
+      --revision: #ffe0b3;
+      --mine: #d8f4ff;
+    }
+
     * { box-sizing: border-box; }
-    body { margin:0; font-family:Arial,"Apple SD Gothic Neo","Malgun Gothic",sans-serif; color:var(--ink); background:var(--soft); line-height:1.6; }
-    header, footer { background:var(--paper); border-color:var(--line); }
-    header { border-bottom:1px solid var(--line); }
-    footer { border-top:1px solid var(--line); padding:22px; text-align:center; color:var(--muted); font-size:14px; }
-    .nav, main { max-width:980px; margin:0 auto; padding-left:22px; padding-right:22px; }
-    .nav { padding-top:18px; padding-bottom:18px; display:flex; align-items:center; justify-content:space-between; gap:16px; }
-    .brand { font-weight:800; font-size:20px; }
-    nav { display:flex; gap:18px; font-size:14px; }
-    nav a { color:var(--muted); text-decoration:none; font-weight:700; }
-    main { padding-top:68px; padding-bottom:68px; }
-    .hero { display:grid; grid-template-columns:1.2fr .8fr; gap:34px; align-items:center; }
-    h1 { margin:0 0 18px; font-size:clamp(38px,7vw,74px); line-height:1.02; letter-spacing:0; }
-    .lead { margin:0 0 28px; max-width:650px; color:var(--muted); font-size:19px; }
-    .actions { display:flex; flex-wrap:wrap; gap:12px; }
-    .button { display:inline-flex; align-items:center; justify-content:center; min-height:44px; padding:0 18px; border-radius:8px; border:1px solid var(--accent); background:var(--accent); color:#fff; text-decoration:none; font-weight:800; }
-    .button.secondary { background:transparent; color:#0b5f59; }
-    .panel, .item { border:1px solid var(--line); border-radius:8px; background:var(--paper); }
-    .panel { padding:24px; }
-    .panel h2, .item h3 { margin:0 0 10px; }
-    .panel p, .item p { margin:0; color:var(--muted); }
-    section { margin-top:58px; }
-    .grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
-    .item { padding:20px; min-height:150px; }
-    @media (max-width:760px) { .nav, .hero { display:block; } nav { margin-top:12px; } main { padding-top:44px; } .grid { grid-template-columns:1fr; } .panel { margin-top:28px; } }
+
+    body {
+      margin: 0;
+      font-family: Arial, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+      line-height: 1.55;
+    }
+
+    button, input {
+      font: inherit;
+    }
+
+    button {
+      min-height: 40px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      color: var(--ink);
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    button.primary {
+      border-color: var(--brand);
+      background: var(--brand);
+      color: white;
+    }
+
+    button.ghost {
+      background: transparent;
+    }
+
+    button.tab {
+      border-radius: 8px 8px 0 0;
+      border-bottom: 0;
+      color: var(--muted);
+    }
+
+    button.active {
+      color: var(--brand-dark);
+      border-color: var(--brand);
+      background: #e8f5f3;
+    }
+
+    header {
+      background: var(--panel);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .topbar {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 190px;
+    }
+
+    .brand strong {
+      font-size: 19px;
+    }
+
+    .brand span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 30px;
+      padding: 0 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #f9fbfd;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    main {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 22px 18px 46px;
+    }
+
+    .screen {
+      display: none;
+    }
+
+    .screen.active {
+      display: block;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    h1, h2, h3, p {
+      margin-top: 0;
+    }
+
+    h1 {
+      margin-bottom: 8px;
+      font-size: 30px;
+      letter-spacing: 0;
+    }
+
+    h2 {
+      margin-bottom: 12px;
+      font-size: 22px;
+      letter-spacing: 0;
+    }
+
+    h3 {
+      margin-bottom: 8px;
+      font-size: 17px;
+      letter-spacing: 0;
+    }
+
+    .subtle {
+      color: var(--muted);
+    }
+
+    .subject-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .subject-card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 18px;
+      min-height: 214px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .subject-title {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: start;
+    }
+
+    .subject-title strong {
+      font-size: 21px;
+    }
+
+    .meta-list {
+      display: grid;
+      gap: 7px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .card-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .study-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 390px;
+      gap: 16px;
+      align-items: start;
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      padding: 18px;
+    }
+
+    .question-box {
+      display: grid;
+      gap: 16px;
+    }
+
+    .statement {
+      border-left: 5px solid var(--brand);
+      padding: 16px;
+      background: #f9fcfb;
+      font-size: 22px;
+      font-weight: 800;
+    }
+
+    .answer-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .answer-row button {
+      min-height: 58px;
+      font-size: 22px;
+    }
+
+    .result {
+      min-height: 54px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfcfe;
+      font-weight: 800;
+    }
+
+    .result.ok {
+      border-color: #92d6ad;
+      color: var(--ok);
+      background: #f0fbf4;
+    }
+
+    .result.no {
+      border-color: #f4a6a0;
+      color: var(--danger);
+      background: #fff5f4;
+    }
+
+    .highlight-tools {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 28px;
+      padding: 0 9px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: #fbfcfe;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(0, 0, 0, .16);
+    }
+
+    .hl-important { background: var(--important); }
+    .hl-trap { background: var(--trap); }
+    .hl-requirement { background: var(--requirement); }
+    .hl-precedent { background: var(--precedent); }
+    .hl-compare { background: var(--compare); }
+    .hl-revision { background: var(--revision); }
+    .hl-mine { background: var(--mine); border-bottom: 2px solid #1d82a0; }
+
+    .evidence-panel {
+      display: none;
+      gap: 14px;
+    }
+
+    .evidence-panel.open {
+      display: grid;
+    }
+
+    .evidence-section {
+      border-top: 1px solid var(--line);
+      padding-top: 13px;
+    }
+
+    .evidence-section:first-child {
+      border-top: 0;
+      padding-top: 0;
+    }
+
+    .source-box {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      background: #fbfcfe;
+      display: grid;
+      gap: 8px;
+    }
+
+    .source-box.official {
+      background: #fffdf7;
+    }
+
+    .source-box.self {
+      background: #f7fbff;
+    }
+
+    .source-label {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .viewer-grid {
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+      gap: 16px;
+    }
+
+    .side-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .search {
+      width: 100%;
+      min-height: 40px;
+      padding: 0 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+
+    .law-tabs {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 14px;
+    }
+
+    .viewer-content {
+      display: none;
+    }
+
+    .viewer-content.active {
+      display: grid;
+      gap: 14px;
+    }
+
+    .article-text {
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      white-space: normal;
+    }
+
+    .warning {
+      border-left: 5px solid var(--warn);
+      padding: 12px 14px;
+      background: #fff7ed;
+      color: #7a4200;
+      font-weight: 800;
+    }
+
+    .split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .report {
+      display: grid;
+      gap: 10px;
+    }
+
+    .report textarea {
+      min-height: 90px;
+      resize: vertical;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 10px;
+      font: inherit;
+    }
+
+    @media (max-width: 940px) {
+      .subject-grid, .study-grid, .viewer-grid, .split {
+        grid-template-columns: 1fr;
+      }
+
+      .section-head, .topbar {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .top-actions {
+        justify-content: flex-start;
+      }
+    }
   </style>
 </head>
 <body>
   <header>
-    <div class="nav">
-      <div class="brand">Summersea98</div>
-      <nav aria-label="Main navigation"><a href="#about">소개</a><a href="#work">콘텐츠</a><a href="#contact">연락</a></nav>
+    <div class="topbar">
+      <div class="brand">
+        <strong>Drill 법학 기출 DB</strong>
+        <span>기출 OX · 관련 규정 · 관련 판례 · 원문 링크</span>
+      </div>
+      <div class="top-actions">
+        <span class="status-pill">최신 조문을 반영했습니다.</span>
+        <button class="ghost" data-screen="home">과목 선택</button>
+        <button class="ghost" data-screen="law">법령 뷰어</button>
+        <button class="ghost" data-screen="case">판례 뷰어</button>
+      </div>
     </div>
   </header>
+
   <main>
-    <div class="hero">
-      <div>
-        <h1>첫 웹사이트를 시작합니다.</h1>
-        <p class="lead">GitHub Pages로 만든 개인 웹사이트입니다. 소개, 작업물, 링크를 하나씩 채워 넣을 수 있습니다.</p>
-        <div class="actions"><a class="button" href="#work">둘러보기</a><a class="button secondary" href="https://github.com/Summersea98">GitHub 보기</a></div>
+    <section class="screen active" id="home">
+      <div class="section-head">
+        <div>
+          <h1>과목 선택</h1>
+          <p class="subtle">과목별 기출 OX 수, 최신 반영 상태, 오류 수정 상태를 먼저 확인합니다.</p>
+        </div>
+        <span class="status-pill">출제 당시 기준과 현행법 기준이 다를 수 있습니다.</span>
       </div>
-      <aside class="panel" id="about"><h2>소개</h2><p>여기에 자기소개, 프로젝트 설명, 운영하는 서비스 소개 등을 넣으면 됩니다.</p></aside>
-    </div>
-    <section id="work" aria-labelledby="work-title">
-      <h2 id="work-title">콘텐츠</h2>
-      <div class="grid">
-        <article class="item"><h3>프로젝트</h3><p>만든 웹사이트, 앱, 문서, 포트폴리오를 정리합니다.</p></article>
-        <article class="item"><h3>기록</h3><p>공부한 내용, 작업 과정, 아이디어를 올릴 수 있습니다.</p></article>
-        <article class="item"><h3>링크</h3><p>GitHub, 블로그, 이메일, SNS 같은 외부 링크를 연결합니다.</p></article>
+      <div class="subject-grid" id="subjectGrid"></div>
+    </section>
+
+    <section class="screen" id="study">
+      <div class="section-head">
+        <div>
+          <h1 id="studyTitle">형법 기출 OX 풀기</h1>
+          <p class="subtle">정답 확인 뒤 바로 근거를 봅니다.</p>
+        </div>
+        <button class="ghost" data-screen="home">과목 선택</button>
+      </div>
+
+      <div class="study-grid">
+        <article class="panel question-box">
+          <div>
+            <span class="chip">2024 경찰간부 · 형법 · 불작위범</span>
+            <span class="chip">출제 당시 기준</span>
+            <span class="chip">현행법 기준 검토 완료</span>
+          </div>
+
+          <div class="statement" id="statementText"></div>
+
+          <div class="highlight-tools" aria-label="하이라이트 범례">
+            <span class="chip"><span class="dot hl-important"></span>중요</span>
+            <span class="chip"><span class="dot hl-trap"></span>함정</span>
+            <span class="chip"><span class="dot hl-requirement"></span>요건</span>
+            <span class="chip"><span class="dot hl-precedent"></span>판례</span>
+            <span class="chip"><span class="dot hl-compare"></span>비교</span>
+            <span class="chip"><span class="dot hl-revision"></span>개정</span>
+            <span class="chip"><span class="dot hl-mine"></span>내 색칠</span>
+          </div>
+
+          <div class="answer-row">
+            <button data-answer="O">O</button>
+            <button data-answer="X">X</button>
+          </div>
+
+          <div class="result" id="answerResult">정답을 선택하세요.</div>
+
+          <div class="source-box self">
+            <div class="source-label">짧은 해설</div>
+            <div id="shortExplanation"></div>
+          </div>
+
+          <div class="top-actions">
+            <button class="primary" id="toggleEvidence">근거 보기</button>
+            <button id="reportButton">오류제보</button>
+          </div>
+        </article>
+
+        <aside class="panel evidence-panel" id="evidencePanel" aria-live="polite">
+          <div class="evidence-section">
+            <h2>지문</h2>
+            <p id="evidenceStatement"></p>
+          </div>
+          <div class="evidence-section">
+            <h2>판단</h2>
+            <p><strong id="judgement"></strong></p>
+          </div>
+          <div class="evidence-section">
+            <h2>짧은 해설</h2>
+            <p id="evidenceExplanation"></p>
+          </div>
+          <div class="evidence-section">
+            <h2>관련 규정</h2>
+            <div class="source-box official">
+              <div class="source-label">이 지문에서 필요한 부분</div>
+              <strong id="articleTitle"></strong>
+              <p id="articleQuote"></p>
+              <div class="split">
+                <span class="chip">출제 당시 기준: 동일</span>
+                <span class="chip">현행법 기준: 검토 완료</span>
+              </div>
+              <button class="primary" data-open-law="criminal">원문 보기</button>
+            </div>
+          </div>
+          <div class="evidence-section">
+            <h2>관련 판례</h2>
+            <div class="source-box official">
+              <div class="source-label">공식 원문과 자체 요약 구분</div>
+              <strong id="caseTitle"></strong>
+              <p id="caseQuote"></p>
+              <button class="primary" data-open-case="omission">원문 보기</button>
+            </div>
+          </div>
+          <div class="evidence-section">
+            <h2>더 보기</h2>
+            <button data-screen="law">관련 조문</button>
+            <button data-screen="case">관련 판례</button>
+          </div>
+        </aside>
       </div>
     </section>
-    <section id="contact" aria-labelledby="contact-title"><h2 id="contact-title">연락</h2><p class="lead">이메일이나 SNS 링크를 여기에 추가하면 방문자가 쉽게 연락할 수 있습니다.</p></section>
+
+    <section class="screen" id="law">
+      <div class="section-head">
+        <div>
+          <h1>법령 뷰어</h1>
+          <p class="subtle">약칭 검색, 조문 목차, 관련 판례, 관련 기출 OX를 한 화면에서 봅니다.</p>
+        </div>
+        <button class="ghost" data-screen="study">기출 OX 풀기</button>
+      </div>
+      <div class="viewer-grid">
+        <aside class="panel side-list">
+          <input class="search" value="형소법 제312조" aria-label="법령명 검색">
+          <button data-law-tab="criminal">형법</button>
+          <button data-law-tab="procedure">형소법 제312조</button>
+          <button data-law-tab="related">관련 조문</button>
+          <button data-law-tab="recent">최근 본 법령</button>
+        </aside>
+        <article class="panel">
+          <div class="law-tabs">
+            <button class="tab active" data-law-tab="criminal">형법</button>
+            <button class="tab" data-law-tab="procedure">형소법 제312조</button>
+            <button class="tab" data-law-tab="related">관련 조문</button>
+          </div>
+
+          <div class="viewer-content active" data-law-content="criminal">
+            <h2>형법 제18조 부작위범</h2>
+            <div class="warning">개정 주의: 이 조문은 최근 변경 여부를 확인 중입니다.</div>
+            <div class="article-text">
+              <span class="hl-requirement">위험의 발생을 방지할 의무가 있거나</span>
+              자기의 행위로 인하여 위험발생의 원인을 야기한 자가 그 위험발생을 방지하지 아니한 때에는 그 발생된 결과에 의하여 처벌한다.
+            </div>
+            <div class="source-box self">
+              <div class="source-label">관련 기출 OX</div>
+              <p>보증인지위가 없는 사람의 단순 부작위는 원칙적으로 부작위범 성립 근거가 부족하다.</p>
+              <button data-screen="study">문제로 돌아가기</button>
+            </div>
+          </div>
+
+          <div class="viewer-content" data-law-content="procedure">
+            <h2>형사소송법 제312조</h2>
+            <div class="article-text">
+              조서의 증거능력은 작성 주체, 실질적 진정성립, 반대신문 기회 등 요건을 나누어 봅니다.
+              <span class="hl-mine">내 색칠: 검사 작성 피의자신문조서 요건</span>
+            </div>
+            <div class="source-box official">
+              <div class="source-label">관련 판례</div>
+              <p>조서의 실질적 진정성립과 증거능력 판단 기준.</p>
+            </div>
+          </div>
+
+          <div class="viewer-content" data-law-content="related">
+            <h2>관련 조문</h2>
+            <div class="article-text">
+              <strong>관련 조문 펼쳐보기</strong>
+              <p>형법 제13조, 제14조, 제18조를 함께 비교합니다.</p>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="screen" id="case">
+      <div class="section-head">
+        <div>
+          <h1>판례 뷰어</h1>
+          <p class="subtle">사건번호, 법원, 선고일자, 핵심 판시 문장을 먼저 봅니다.</p>
+        </div>
+        <button class="ghost" data-screen="study">기출 OX 풀기</button>
+      </div>
+      <div class="viewer-grid">
+        <aside class="panel side-list">
+          <input class="search" value="보증인지위" aria-label="판례 검색">
+          <button data-case-tab="omission">부작위범</button>
+          <button data-case-tab="confuse">헷갈리는 판례</button>
+          <button data-case-tab="recent">최신판례</button>
+        </aside>
+        <article class="panel">
+          <div class="viewer-content active" data-case-content="omission">
+            <h2>대법원 20XX.XX.XX. 선고 XXXX도XXXX</h2>
+            <span class="chip">대법원</span>
+            <span class="chip">형법</span>
+            <span class="chip">판례</span>
+            <div class="source-box self">
+              <div class="source-label">자체 요약</div>
+              <p>부작위범은 결과방지의무와 작위가능성이 핵심입니다. 단순히 도와주지 않았다는 사정만으로 항상 성립하지 않습니다.</p>
+            </div>
+            <div class="source-box official">
+              <div class="source-label">판례 원문 중 핵심 문장</div>
+              <p><span class="hl-precedent">법령, 계약, 선행행위 등에 따른 작위의무가 인정되어야 한다.</span></p>
+            </div>
+            <div class="source-box self">
+              <div class="source-label">관련 기출 OX</div>
+              <p>보증인지위가 없는 사람에게 결과방지의무를 인정할 수 있는지 묻는 지문.</p>
+              <button data-screen="study">OX로 바로 풀기</button>
+            </div>
+          </div>
+          <div class="viewer-content" data-case-content="confuse">
+            <h2>헷갈리는 판례</h2>
+            <p>보호의무가 인정되는 사안과 단순 방관 사안을 비교합니다.</p>
+          </div>
+          <div class="viewer-content" data-case-content="recent">
+            <h2>최신판례</h2>
+            <p>최신 변경 확인이 지연되고 있습니다.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <dialog id="reportDialog">
+      <form method="dialog" class="panel report">
+        <h2>오류제보</h2>
+        <p class="subtle">정답 오류, 해설 오류, 판례 변경, 법령 개정, 색칠/하이라이트 오류, 출처 오류를 남깁니다.</p>
+        <textarea aria-label="오류 내용">이 지문에서 확인이 필요한 내용을 적어주세요.</textarea>
+        <div class="top-actions">
+          <button>닫기</button>
+          <button class="primary" value="submit">제보 저장</button>
+        </div>
+      </form>
+    </dialog>
   </main>
-  <footer>© 2026 Summersea98. Published with GitHub Pages.</footer>
+
+  <script>
+    const subjects = [
+      ["형법", "12,480", "2026", "2026-06-12", "수정 3건 반영"],
+      ["형사소송법", "9,860", "2026", "2026-06-12", "검토 중 2건"],
+      ["헌법", "8,240", "2025", "2026-06-10", "수정 완료"],
+      ["행정법", "10,120", "2026", "2026-06-11", "개정 주의 4건"],
+      ["민법", "14,300", "2025", "2026-06-09", "검토 완료"],
+      ["민사소송법", "7,740", "2025", "2026-06-08", "수정 완료"]
+    ];
+
+    const oxItem = {
+      ox_item_id: "ox_criminal_2024_001_a",
+      answer_ox: "X",
+      statement: "<span class='hl-trap'>보증인지위가 없는 사람</span>도 위험을 방지하지 않았다는 이유만으로 <span class='hl-important'>항상 부작위범</span>이 성립한다.",
+      short_explanation: "항상 성립하지 않습니다. 부작위범은 결과방지의무, 작위가능성, 구성요건적 동가치성이 문제됩니다.",
+      article: {
+        target_id: "article_criminal_18",
+        title: "형법 제18조",
+        quote: "위험의 발생을 방지할 의무가 있거나 자기의 행위로 위험발생의 원인을 야기한 자가 문제됩니다."
+      },
+      precedent: {
+        target_id: "precedent_omission_001",
+        title: "대법원 20XX.XX.XX. 선고 XXXX도XXXX",
+        quote: "법령, 계약, 선행행위 등에 따른 작위의무가 인정되어야 한다는 취지입니다."
+      },
+      evidence_link: {
+        evidence_type: "article / precedent",
+        display_order: 1,
+        basis_note: "결과방지의무가 있는지 판단",
+        review_status: "검수 완료"
+      }
+    };
+
+    const subjectGrid = document.querySelector("#subjectGrid");
+    subjectGrid.innerHTML = subjects.map(([name, count, year, updated, status]) => `
+      <article class="subject-card">
+        <div>
+          <div class="subject-title">
+            <strong>${name}</strong>
+            <span class="chip">${status}</span>
+          </div>
+          <div class="meta-list">
+            <span>총 OX 수: ${count}</span>
+            <span>최신 기출 반영 연도: ${year}</span>
+            <span>최신 법령/판례 반영일: ${updated}</span>
+            <span>오류 수정 상태: ${status}</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button class="primary" data-start="${name}">기출 OX 풀기</button>
+          <button data-screen="case">판례로 보기</button>
+          <button data-screen="law">최신 변경 확인</button>
+          <button data-screen="law">법령 보기</button>
+        </div>
+      </article>
+    `).join("");
+
+    function showScreen(id) {
+      document.querySelectorAll(".screen").forEach(screen => screen.classList.toggle("active", screen.id === id));
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function setQuestion(subject) {
+      document.querySelector("#studyTitle").textContent = `${subject} 기출 OX 풀기`;
+      document.querySelector("#statementText").innerHTML = oxItem.statement;
+      document.querySelector("#shortExplanation").textContent = oxItem.short_explanation;
+      document.querySelector("#evidenceStatement").innerHTML = oxItem.statement;
+      document.querySelector("#judgement").textContent = "판단: X";
+      document.querySelector("#evidenceExplanation").textContent = oxItem.short_explanation;
+      document.querySelector("#articleTitle").textContent = oxItem.article.title;
+      document.querySelector("#articleQuote").textContent = oxItem.article.quote;
+      document.querySelector("#caseTitle").textContent = oxItem.precedent.title;
+      document.querySelector("#caseQuote").textContent = oxItem.precedent.quote;
+      document.querySelector("#answerResult").className = "result";
+      document.querySelector("#answerResult").textContent = "정답을 선택하세요.";
+      document.querySelector("#evidencePanel").classList.remove("open");
+      showScreen("study");
+    }
+
+    document.addEventListener("click", event => {
+      const screen = event.target.closest("[data-screen]");
+      if (screen) showScreen(screen.dataset.screen);
+
+      const start = event.target.closest("[data-start]");
+      if (start) setQuestion(start.dataset.start);
+
+      const answer = event.target.closest("[data-answer]");
+      if (answer) {
+        const correct = answer.dataset.answer === oxItem.answer_ox;
+        const result = document.querySelector("#answerResult");
+        result.className = `result ${correct ? "ok" : "no"}`;
+        result.textContent = correct ? "정답입니다. 근거를 확인하세요." : "오답입니다. 이 지문은 X입니다.";
+      }
+
+      if (event.target.closest("#toggleEvidence")) {
+        document.querySelector("#evidencePanel").classList.toggle("open");
+      }
+
+      if (event.target.closest("#reportButton")) {
+        document.querySelector("#reportDialog").showModal();
+      }
+
+      const law = event.target.closest("[data-law-tab], [data-open-law]");
+      if (law) {
+        const target = law.dataset.lawTab || law.dataset.openLaw;
+        showScreen("law");
+        document.querySelectorAll("[data-law-content]").forEach(item => item.classList.toggle("active", item.dataset.lawContent === target));
+        document.querySelectorAll(".law-tabs .tab").forEach(item => item.classList.toggle("active", item.dataset.lawTab === target));
+      }
+
+      const caseTab = event.target.closest("[data-case-tab], [data-open-case]");
+      if (caseTab) {
+        const target = caseTab.dataset.caseTab || caseTab.dataset.openCase;
+        showScreen("case");
+        document.querySelectorAll("[data-case-content]").forEach(item => item.classList.toggle("active", item.dataset.caseContent === target));
+      }
+    });
+
+    setQuestion("형법");
+    showScreen("home");
+  </script>
 </body>
 </html>
